@@ -9,6 +9,7 @@ func _ready():
 		var beuld = Boulder.instance()
 		$Boulders.add_child(beuld)
 		beuld.position = map_to_world(cell) + get_cell_size()/2
+		set_cellv(cell, 0) # convert floor to regular floor once initial boulder has been placed
 	
 func boulder_here(map_pos):
 	pass
