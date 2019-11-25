@@ -11,8 +11,6 @@ const dir_to_displacement_vec = {
 	RIGHT : Vector2(1,0),
 	}
 
-var last_dir # last movement direction
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimatedSprite.set_animation("horizontal")
