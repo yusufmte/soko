@@ -38,11 +38,11 @@ func move_player():
 					$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
 					$AnimatedSprite.set_frame(0) # reset frame to first
 					$AnimatedSprite.play("",false) # play in forward direction
-				if movedir["l"]: # left
+				elif movedir["l"]: # left
 					$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
 					$AnimatedSprite.set_frame(3) # reset frame to last
 					$AnimatedSprite.play("",true) # play in reverse direction
-				if movedir["u"]: # up
+				elif movedir["u"]: # up
 					$AnimatedSprite.set_animation("vertical") # set to vertical animation
 					$AnimatedSprite.set_frame(0) # reset frame to first
 					$AnimatedSprite.play("",false) # play in forward direction
