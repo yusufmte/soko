@@ -30,34 +30,31 @@ func play_movement_animation(direction):
 			$AnimatedSprite.play("",true) # play in reverse direction
 
 func move_player():
-	if is_healthy and (Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("ui_down")): # if healthy, check for movement
+	# next series of lines applies direction of movement
+	var direction_vec = Vector2() # movement direction vector
+	if Input.is_action_just_pressed("ui_right"):
+		direction_vec.x += 1
+		last_dir = RIGHT
+	elif Input.is_action_just_pressed("ui_left"):
+		direction_vec.x -= 1
+		last_dir = LEFT
+	elif Input.is_action_just_pressed("ui_up"):
+		direction_vec.y -= 1
+		last_dir = UP
+	elif Input.is_action_just_pressed("ui_down"):
+		direction_vec.y += 1
+		last_dir = DOWN
 		
-		# next series of lines applies direction of movement
-		var direction_vec = Vector2() # movement direction vector
-		if Input.is_action_just_pressed("ui_right"):
-			direction_vec.x += 1
-			last_dir = RIGHT
-		elif Input.is_action_just_pressed("ui_left"):
-			direction_vec.x -= 1
-			last_dir = LEFT
-		elif Input.is_action_just_pressed("ui_up"):
-			direction_vec.y -= 1
-			last_dir = UP
-		elif Input.is_action_just_pressed("ui_down"):
-			direction_vec.y += 1
-			last_dir = DOWN
-		
+	var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the coordinates of the destination
+	var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
+	if direction_vec != Vector2(0,0):
 		play_movement_animation(last_dir)
-			
-		var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the coordinates of the destination
-		var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
-		if direction_vec != Vector2(0,0):
-			if dest_type == 1: # wall
-				pass # no movement
-			elif dest_type == 2: # spike
-				deflate() # deflates player
-			else:
-				position += direction_vec * get_parent().cell_size # movement occurs!
+		if dest_type == 1: # wall
+			pass # no movement
+		elif dest_type == 2: # spike
+			deflate() # deflates player
+		else:
+			position += direction_vec * get_parent().cell_size # movement occurs!
 				
 func deflate(): # deflates player
 	$AnimatedSprite.set_animation("deflated")
@@ -65,4 +62,4 @@ func deflate(): # deflates player
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	move_player()
+	if is_healthy : move_player()
