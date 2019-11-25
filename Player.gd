@@ -16,7 +16,7 @@ func _ready():
 	$AnimatedSprite.set_animation("horizontal")
 	is_healthy = true
 
-func play_movement_animation(direction):
+func play_movement_animation(direction): # plays movement animation in certain direction
 	match direction:
 		RIGHT:
 			$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
@@ -36,7 +36,7 @@ func play_movement_animation(direction):
 			$AnimatedSprite.play("",true) # play in reverse direction
 
 # Returns a direction if there was movement or NONE if not
-func check_for_move_action():
+func check_for_move_action(): # connects key to movement direction
 	var direction = NONE # move direction
 	if Input.is_action_just_pressed("ui_right"):
 		direction = RIGHT
@@ -72,5 +72,3 @@ func _process(delta):
 		if direction != NONE :
 			play_movement_animation(direction)
 			attempt_move(direction)
-			
-		
