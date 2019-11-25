@@ -1,12 +1,12 @@
 extends TileMap
 
-var Boulders = preload("res://Boulder.tscn")
+var Boulder = preload("res://Boulder.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	for cell in get_used_cells_by_id(3):
-		var beuld = Boulders.instance()
+		var beuld = Boulder.instance()
 		$Boulders.add_child(beuld)
 		beuld.position = map_to_world(cell) + get_cell_size()/2
 	
