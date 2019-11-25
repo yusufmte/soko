@@ -1,6 +1,6 @@
 extends TileMap
 
-var Boulders = preload("res://Boulder.tscn")
+var Boulder = preload("res://Boulder.tscn")
 var obstacles = [1,2] # tileid of obstacles (that upon which a boulder cannot be pushed)
 enum {NONE, UP, DOWN, LEFT, RIGHT}
 
@@ -9,9 +9,10 @@ func _ready():
 	
 	# put boulders in all the peuptiles
 	for cell in get_used_cells_by_id(3):
-		var beuld = Boulders.instance()
+		var beuld = Boulder.instance()
 		$Boulders.add_child(beuld)
 		beuld.position = map_to_world(cell) + get_cell_size()/2
+		set_cellv(cell, 0) # convert floor to regular floor once initial boulder has been placed
 	
 func get_boulds_here(map_pos): # returns a list containing the boulders at a position
 	var beulds = []
