@@ -29,7 +29,7 @@ func get_boulds_here(map_pos): # returns a list containing the boulders at a pos
 	return beulds # return beulds (it should be empty if no boulder, and have the one boulder if there is one)
 	
 func attempt_bouldrop(bould): # drops a boulder if it's on a hole
-	if get_cellv(world_to_map(bould.position)) == 4:
+	if get_cellv(world_to_map(bould.position)) == 4: # deep hole
 		bould.knock_bould()
 
 func push_bould(bould,dir): # moves bould in a certain direction, or returns false if it can't
