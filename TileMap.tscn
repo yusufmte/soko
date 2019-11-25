@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://tile1.png" type="Texture" id=1]
 [ext_resource path="res://TileMap.gd" type="Script" id=2]
@@ -12,6 +12,13 @@
 [ext_resource path="res://player_anims/right2.png" type="Texture" id=10]
 [ext_resource path="res://player_anims/right3.png" type="Texture" id=11]
 [ext_resource path="res://player_anims/deflated.png" type="Texture" id=12]
+[ext_resource path="res://player_anims/fall0.png" type="Texture" id=13]
+[ext_resource path="res://player_anims/fall1.png" type="Texture" id=14]
+[ext_resource path="res://player_anims/fall2.png" type="Texture" id=15]
+[ext_resource path="res://player_anims/fall3.png" type="Texture" id=16]
+[ext_resource path="res://twinkle_anim/0.png" type="Texture" id=17]
+[ext_resource path="res://twinkle_anim/1.png" type="Texture" id=18]
+[ext_resource path="res://twinkle_anim/2.png" type="Texture" id=19]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tile1.png 0"
@@ -81,6 +88,11 @@ animations = [ {
 "loop": true,
 "name": "deflated",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), null, null, null, null, ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), null ],
+"loop": false,
+"name": "falling",
+"speed": 10.0
 } ]
 
 [node name="TileMap" type="TileMap"]
@@ -95,6 +107,7 @@ __meta__ = {
 
 [node name="Player" type="Node2D" parent="."]
 position = Vector2( 48.6456, 49.1089 )
+z_index = 10
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -102,6 +115,6 @@ __meta__ = {
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
 frames = SubResource( 2 )
-animation = "vertical"
+animation = "falling"
 
 [node name="Boulders" type="Node2D" parent="."]

@@ -1,14 +1,25 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Boulder.gd" type="Script" id=1]
 [ext_resource path="res://boulder_anims/1.png" type="Texture" id=2]
+[ext_resource path="res://boulder_anims/2.png" type="Texture" id=3]
+[ext_resource path="res://boulder_anims/3.png" type="Texture" id=4]
+[ext_resource path="res://boulder_anims/4.png" type="Texture" id=5]
+[ext_resource path="res://twinkle_anim/0.png" type="Texture" id=6]
+[ext_resource path="res://twinkle_anim/1.png" type="Texture" id=7]
+[ext_resource path="res://twinkle_anim/2.png" type="Texture" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "default",
-"speed": 3.0
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), null, null, null, null, ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), null ],
+"loop": false,
+"name": "falling",
+"speed": 10.0
 } ]
 
 [node name="Boulder" type="Node2D"]
@@ -19,5 +30,5 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.463295, 0.46331 )
 frames = SubResource( 1 )
+animation = "falling"

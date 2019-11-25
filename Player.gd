@@ -48,21 +48,38 @@ func check_for_move_action(): # connects key to movement direction
 		direction = DOWN
 	return direction
 
+func complete_move(direction_vec):
+	position += direction_vec * get_parent().cell_size
 
 func attempt_move(direction):
 	var direction_vec = dir_to_displacement_vec[direction]
-	var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the coordinates of the destination
+	var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the MAP coordinates of the destination
 	var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
+	var no_tile_obstacle = false
 	match dest_type:
 		1: # wall
 			pass # no movement
 		2: # spike
 			deflate() # deflates player
+		4: # hole
+			position += direction_vec * get_parent().cell_size # movement occurs...
+			fall() # ...much to the player's peup :D
 		_:
-			position += direction_vec * get_parent().cell_size # movement occurs!
+			no_tile_obstacle = true
+	if(no_tile_obstacle):
+		var beuld = get_parent().get_boulds_here(dest_coord) # the list of boulders in the destination
+		if beuld.size() > 0: # if there is a boulder there...
+			if get_parent().push_bould(beuld[0],direction): # ...and, if the boulder is pushed...
+				complete_move(direction_vec) # ...then movement occurs!
+		else: # on the other hand, if no boulder...
+			complete_move(direction_vec) # ...movement occurs!
 
 func deflate(): # deflates player
 	$AnimatedSprite.set_animation("deflated")
+	is_healthy = false
+	
+func fall(): # fells player
+	$AnimatedSprite.play("falling")
 	is_healthy = false
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
