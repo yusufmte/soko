@@ -49,13 +49,14 @@ func move_player():
 	var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
 	if direction_vec != Vector2(0,0):
 		play_movement_animation(last_dir)
-		if dest_type == 1: # wall
-			pass # no movement
-		elif dest_type == 2: # spike
-			deflate() # deflates player
-		else:
-			position += direction_vec * get_parent().cell_size # movement occurs!
-				
+		match dest_type:
+			1: # wall
+				pass # no movement
+			2: # spike
+				deflate() # deflates player
+			_:
+				position += direction_vec * get_parent().cell_size # movement occurs!
+
 func deflate(): # deflates player
 	$AnimatedSprite.set_animation("deflated")
 	is_healthy = false
