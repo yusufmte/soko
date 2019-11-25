@@ -13,8 +13,6 @@ func _ready():
 func move_player():
 	if is_healthy and (Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("ui_down")): # if healthy, check for movement
 		
-		var movedir = {"r":false,"l":false,"u":false,"d":false} # will store direction of movement
-		
 		# next series of lines applies direction of movement
 		var direction_vec = Vector2() # movement direction vector
 		if Input.is_action_just_pressed("ui_right"):
