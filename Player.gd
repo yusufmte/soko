@@ -9,7 +9,26 @@ var last_dir # last movement direction
 func _ready():
 	$AnimatedSprite.set_animation("horizontal")
 	is_healthy = true
-	
+
+func play_movement_animation(direction):
+	match direction:
+		RIGHT:
+			$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
+			$AnimatedSprite.set_frame(0) # reset frame to first
+			$AnimatedSprite.play("",false) # play in forward direction
+		LEFT:
+			$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
+			$AnimatedSprite.set_frame(3) # reset frame to last
+			$AnimatedSprite.play("",true) # play in reverse direction
+		UP:
+			$AnimatedSprite.set_animation("vertical") # set to vertical animation
+			$AnimatedSprite.set_frame(0) # reset frame to first
+			$AnimatedSprite.play("",false) # play in forward direction
+		DOWN:
+			$AnimatedSprite.set_animation("vertical") # set to vertical animation
+			$AnimatedSprite.set_frame(3) # reset frame to last
+			$AnimatedSprite.play("",true) # play in reverse direction
+
 func move_player():
 	if is_healthy and (Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("ui_down")): # if healthy, check for movement
 		
@@ -28,24 +47,7 @@ func move_player():
 			direction_vec.y += 1
 			last_dir = DOWN
 		
-		# following lines animate the player
-		match last_dir:
-			RIGHT:
-				$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
-				$AnimatedSprite.set_frame(0) # reset frame to first
-				$AnimatedSprite.play("",false) # play in forward direction
-			LEFT:
-				$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
-				$AnimatedSprite.set_frame(3) # reset frame to last
-				$AnimatedSprite.play("",true) # play in reverse direction
-			UP:
-				$AnimatedSprite.set_animation("vertical") # set to vertical animation
-				$AnimatedSprite.set_frame(0) # reset frame to first
-				$AnimatedSprite.play("",false) # play in forward direction
-			DOWN:
-				$AnimatedSprite.set_animation("vertical") # set to vertical animation
-				$AnimatedSprite.set_frame(3) # reset frame to last
-				$AnimatedSprite.play("",true) # play in reverse direction
+		play_movement_animation(last_dir)
 			
 		var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the coordinates of the destination
 		var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
