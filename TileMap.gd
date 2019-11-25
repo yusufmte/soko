@@ -16,7 +16,7 @@ func _ready():
 func get_boulds_here(map_pos): # returns a list containing the boulders at a position
 	var beulds = []
 	for beuld in $Boulders.get_children():
-		if world_to_map(beuld.position) == map_pos: beulds.append(beuld) # adds any boulders there to beulds
+		if beuld.is_topside and world_to_map(beuld.position) == map_pos: beulds.append(beuld) # adds any boulders there to beulds
 	return beulds # return beulds (it should be empty if no boulder, and have the one boulder if there is one)
 	
 func attempt_bouldrop(bould): # drops a boulder if it's on a hole
