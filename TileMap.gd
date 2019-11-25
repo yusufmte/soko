@@ -2,7 +2,15 @@ extends TileMap
 
 var Boulder = preload("res://Boulder.tscn")
 var obstacles = [1,2] # tileid of obstacles (that upon which a boulder cannot be pushed)
+
 enum {NONE, UP, DOWN, LEFT, RIGHT}
+const dir_to_displacement_vec = {
+	NONE  : Vector2(),
+	UP    : Vector2(0,-1),
+	DOWN  : Vector2(0,1),
+	LEFT  : Vector2(-1,0),
+	RIGHT : Vector2(1,0),
+	}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,39 +33,19 @@ func attempt_bouldrop(bould): # drops a boulder if it's on a hole
 		bould.knock_bould()
 
 func push_bould(bould,dir): # moves bould in a certain direction, or returns false if it can't
+	var can_move = false
 	if bould.is_topside:
-		var can_move = false
-		match dir:
-			RIGHT:
-				var dest_coord = world_to_map(bould.position) + Vector2(1,0)
-				var dest_type = get_cellv(dest_coord)
-				if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size() == 0):
-					bould.rotate_bould("cw")
-					bould.position += Vector2(1,0)*cell_size
-					can_move = true
-			LEFT:
-				var dest_coord = world_to_map(bould.position) + Vector2(-1,0)
-				var dest_type = get_cellv(dest_coord)
-				if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size() == 0):
-					bould.rotate_bould("ccw")
-					bould.position += Vector2(-1,0)*cell_size
-					can_move = true
-			UP:
-				var dest_coord = world_to_map(bould.position) + Vector2(0,-1)
-				var dest_type = get_cellv(dest_coord)
-				if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size() == 0):
-					bould.position += Vector2(0,-1)*cell_size
-					can_move = true
-			DOWN:
-				var dest_coord = world_to_map(bould.position) + Vector2(0,1)
-				var dest_type = get_cellv(dest_coord)
-				if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size() == 0):
-					bould.position += Vector2(0,1)*cell_size
-					can_move = true
+		var dest_coord = world_to_map(bould.position) + dir_to_displacement_vec[dir]
+		var dest_type = get_cellv(dest_coord)
+		if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size()) == 0:
+			bould.position += dir_to_displacement_vec[dir]*cell_size
+			can_move = true
+			match dir:
+				RIGHT: bould.rotate_bould("cw")
+				LEFT: bould.rotate_bould("ccw")
 		if can_move:
 			attempt_bouldrop(bould)
-		return can_move
-	return false
+	return can_move
 					
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
