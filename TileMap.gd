@@ -33,19 +33,17 @@ func attempt_bouldrop(bould): # drops a boulder if it's on a hole
 		bould.knock_bould()
 
 func push_bould(bould,dir): # moves bould in a certain direction, or returns false if it can't
-	var can_move = false
 	if bould.is_topside:
 		var dest_coord = world_to_map(bould.position) + dir_to_displacement_vec[dir]
 		var dest_type = get_cellv(dest_coord)
 		if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size()) == 0:
-			bould.position += dir_to_displacement_vec[dir]*cell_size
-			can_move = true
+			bould.position = map_to_world(dest_coord)+cell_size/2
 			match dir:
 				RIGHT: bould.rotate_bould("cw")
 				LEFT: bould.rotate_bould("ccw")
-		if can_move:
 			attempt_bouldrop(bould)
-	return can_move
+			return true
+	return false
 					
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
