@@ -13,27 +13,19 @@ const dir_to_displacement_vec = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$AnimatedSprite.set_animation("horizontal")
+	$PlayerSprite.frame=0
 	is_healthy = true
 
 func play_movement_animation(direction): # plays movement animation in certain direction
 	match direction:
 		RIGHT:
-			$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
-			$AnimatedSprite.set_frame(0) # reset frame to first
-			$AnimatedSprite.play("",false) # play in forward direction
+			$PlayerAnimations.play("horizontal")
 		LEFT:
-			$AnimatedSprite.set_animation("horizontal") # set to horizontal animation
-			$AnimatedSprite.set_frame(3) # reset frame to last
-			$AnimatedSprite.play("",true) # play in reverse direction
+			$PlayerAnimations.play_backwards("horizontal")
 		UP:
-			$AnimatedSprite.set_animation("vertical") # set to vertical animation
-			$AnimatedSprite.set_frame(0) # reset frame to first
-			$AnimatedSprite.play("",false) # play in forward direction
+			$PlayerAnimations.play("vertical")
 		DOWN:
-			$AnimatedSprite.set_animation("vertical") # set to vertical animation
-			$AnimatedSprite.set_frame(3) # reset frame to last
-			$AnimatedSprite.play("",true) # play in reverse direction
+			$PlayerAnimations.play_backwards("vertical")
 
 # Returns a direction if there was movement or NONE if not
 func check_for_move_action(): # connects key to movement direction
@@ -75,11 +67,13 @@ func attempt_move(direction):
 			complete_move(direction_vec) # ...movement occurs!
 
 func deflate(): # deflates player
-	$AnimatedSprite.set_animation("deflated")
+	$PlayerAnimations.stop()
+	$PlayerSprite.rotation_degrees=0
+	$PlayerSprite.frame = 1
 	is_healthy = false
 	
 func fall(): # fells player
-	$AnimatedSprite.play("falling")
+	$PlayerAnimations.play("fall")
 	is_healthy = false
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
