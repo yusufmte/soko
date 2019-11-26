@@ -7,14 +7,10 @@ func _ready():
 	pass # Replace with function body.
 	
 func rotate_bould(dir): # rotates bould (should happen when pushed)
-	if dir == "ccw": $AnimatedSprite.rotate(-PI/2)
-	if dir == "cw": $AnimatedSprite.rotate(PI/2)
+	if dir == "ccw": $BoulderSprite.rotate(-PI/2)
+	if dir == "cw": $BoulderSprite.rotate(PI/2)
 	
 func knock_bould(): # knocks bould down (should happen at holes)
-	$AnimatedSprite.play("falling")
+	$FallAnimation.play("fall")
 	is_topside = false
-	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
