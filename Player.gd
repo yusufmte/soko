@@ -49,7 +49,7 @@ func check_for_move_action(): # connects key to movement direction
 	return direction
 
 func complete_move(direction_vec):
-	position += direction_vec * get_parent().cell_size
+	position = get_parent().map_to_world( get_parent().world_to_map(position) + direction_vec ) + get_parent().cell_size/2
 
 func attempt_move(direction):
 	var direction_vec = dir_to_displacement_vec[direction]
@@ -62,7 +62,7 @@ func attempt_move(direction):
 		2: # spike
 			deflate() # deflates player
 		4: # hole
-			position += direction_vec * get_parent().cell_size # movement occurs...
+			complete_move(direction_vec)
 			fall() # ...much to the player's peup :D
 		_:
 			no_tile_obstacle = true
