@@ -4,7 +4,7 @@
 [ext_resource path="res://boulder_anims/1.png" type="Texture" id=2]
 [ext_resource path="res://twinkle_anim/spritesheet.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 resource_name = "fall"
 length = 2.1
 tracks/0/type = "value"
@@ -72,4 +72,4 @@ texture = ExtResource( 3 )
 hframes = 2
 
 [node name="FallAnimation" type="AnimationPlayer" parent="."]
-anims/fall = SubResource( 3 )
+anims/fall = SubResource( 1 )

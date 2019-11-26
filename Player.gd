@@ -42,6 +42,7 @@ func check_for_move_action(): # connects key to movement direction
 
 func complete_move(direction_vec):
 	position = get_parent().map_to_world( get_parent().world_to_map(position) + direction_vec ) + get_parent().cell_size/2
+	get_parent().emit_signal("player_moved")
 
 func attempt_move(direction):
 	var direction_vec = dir_to_displacement_vec[direction]
@@ -50,7 +51,7 @@ func attempt_move(direction):
 	var no_tile_obstacle = false
 	match dest_type:
 		1: # wall
-			pass # no movement
+			pass
 		2: # spike
 			deflate() # deflates player
 		4: # hole
@@ -65,16 +66,24 @@ func attempt_move(direction):
 				complete_move(direction_vec) # ...then movement occurs!
 		else: # on the other hand, if no boulder...
 			complete_move(direction_vec) # ...movement occurs!
+			
+func peuped(): # player's health has been compromised
+	is_healthy = false
+	if get_parent().check_victory():
+		get_parent().emit_signal("pyrrhic_victory") # if peuped after won
+	else:
+		get_parent().emit_signal("defeat") # emits defeat signal from TileMap
+	
 
 func deflate(): # deflates player
 	$PlayerAnimations.stop()
 	$PlayerSprite.rotation_degrees=0
 	$PlayerSprite.frame = 1
-	is_healthy = false
+	peuped()
 	
 func fall(): # fells player
 	$PlayerAnimations.play("fall")
-	is_healthy = false
+	peuped()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
