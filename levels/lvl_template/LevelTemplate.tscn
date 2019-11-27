@@ -1,8 +1,10 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://resources/art/tileset.png" type="Texture" id=1]
-[ext_resource path="res://resources/art/twinkle_anim/spritesheet.png" type="Texture" id=2]
-[ext_resource path="res://resources/art/player_anims/spritesheet.png" type="Texture" id=3]
+[ext_resource path="res://levels/lvl_template/LevelTemplate.gd" type="Script" id=2]
+[ext_resource path="res://levels/lvl_template/Player.gd" type="Script" id=3]
+[ext_resource path="res://resources/art/twinkle_anim/spritesheet.png" type="Texture" id=4]
+[ext_resource path="res://resources/art/player_anims/spritesheet.png" type="Texture" id=5]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tile1.png 0"
@@ -95,186 +97,16 @@
 8/navigation_offset = Vector2( 0, 0 )
 8/shapes = [  ]
 8/z_index = 0
-
-[sub_resource type="GDScript" id=2]
-script/source = "extends TileMap
-
-var Boulder = preload(\"res://levels/lvl_template/Boulder.tscn\")
-var obstacles = [1,2] # tileid of obstacles (that upon which a boulder cannot be pushed)
-
-signal victory
-signal defeat
-signal pyrrhic_victory
-signal player_moved
-signal bouldpush
-signal knock
-
-enum {NONE, UP, DOWN, LEFT, RIGHT}
-const dir_to_displacement_vec = {
-	NONE  : Vector2(),
-	UP    : Vector2(0,-1),
-	DOWN  : Vector2(0,1),
-	LEFT  : Vector2(-1,0),
-	RIGHT : Vector2(1,0),
-	}
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	
-	# put boulders in all the peuptiles
-	for cell in (get_used_cells_by_id(3)+get_used_cells_by_id(7)): # peuptile
-		var beuld = Boulder.instance()
-		if cell in get_used_cells_by_id(3):
-			beuld.change_bould_type(\"c\")
-		elif cell in get_used_cells_by_id(7):
-			beuld.change_bould_type(\"t\")
-		$Boulders.add_child(beuld)
-		beuld.position = map_to_world(cell) + get_cell_size()/2
-		set_cellv(cell, 0) # convert floor to regular floor once initial boulder has been placed
-		
-	# put player in start position
-	for cell in get_used_cells_by_id(6): # player start tile
-		$Player.position = map_to_world(cell) + get_cell_size()/2
-		set_cellv(cell, 0)
-	
-func get_boulds_here(map_pos): # returns a list containing the boulders at a position
-	var beulds = []
-	for beuld in $Boulders.get_children():
-		if beuld.is_topside and world_to_map(beuld.position) == map_pos: beulds.append(beuld) # adds any boulders there to beulds
-	return beulds # return beulds (it should be empty if no boulder, and have the one boulder if there is one)
-
-func check_victory(): # checks for victory, and sends victory signal if so
-	for beuld in $Boulders.get_children():
-		if beuld.is_topside == true: return false
-	if $Player.is_healthy: emit_signal(\"victory\")
-	return true
-	
-func attempt_bouldrop(bould): # drops a boulder if it's on a hole
-	var tile_type = get_cellv(world_to_map(bould.position))
-	if (bould.bould_type == \"c\" and tile_type == 4) or (bould.bould_type == \"t\" and tile_type == 8): # correctly shapred hole
-		bould.knock_bould()
-		emit_signal(\"knock\")
-		check_victory() # check for victory every time a bould is knocked
-
-func push_bould(bould,dir): # moves bould in a certain direction, or returns false if it can't
-	if bould.is_topside:
-		var dest_coord = world_to_map(bould.position) + dir_to_displacement_vec[dir]
-		var dest_type = get_cellv(dest_coord)
-		if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size()) == 0:
-			match dir:
-				RIGHT: bould.rotate_bould(1)
-				LEFT: bould.rotate_bould(-1)
-			emit_signal(\"bouldpush\")
-			bould.position = map_to_world(dest_coord)+cell_size/2
-			attempt_bouldrop(bould)
-			return true
-	return false
-					
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#pass
-"
-
-[sub_resource type="GDScript" id=3]
-script/source = "extends Node2D
-
-export var is_healthy = true
-
-enum {NONE, UP, DOWN, LEFT, RIGHT}
-const dir_to_displacement_vec = {
-	NONE  : Vector2(),
-	UP    : Vector2(0,-1),
-	DOWN  : Vector2(0,1),
-	LEFT  : Vector2(-1,0),
-	RIGHT : Vector2(1,0),
-	}
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	$PlayerSprite.frame=0
-	is_healthy = true
-
-func play_movement_animation(direction): # plays movement animation in certain direction
-	match direction:
-		RIGHT:
-			$PlayerAnimations.play(\"horizontal\")
-		LEFT:
-			$PlayerAnimations.play_backwards(\"horizontal\")
-		UP:
-			$PlayerAnimations.play(\"vertical\")
-		DOWN:
-			$PlayerAnimations.play_backwards(\"vertical\")
-
-# Returns a direction if there was movement or NONE if not
-func check_for_move_action(): # connects key to movement direction
-	var direction = NONE # move direction
-	if Input.is_action_just_pressed(\"ui_right\"):
-		direction = RIGHT
-	elif Input.is_action_just_pressed(\"ui_left\"):
-		direction = LEFT
-	elif Input.is_action_just_pressed(\"ui_up\"):
-		direction = UP
-	elif Input.is_action_just_pressed(\"ui_down\"):
-		direction = DOWN
-	return direction
-
-func complete_move(direction_vec):
-	position = get_parent().map_to_world( get_parent().world_to_map(position) + direction_vec ) + get_parent().cell_size/2
-	get_parent().emit_signal(\"player_moved\")
-
-func attempt_move(direction):
-	var direction_vec = dir_to_displacement_vec[direction]
-	var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the MAP coordinates of the destination
-	var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
-	var no_tile_obstacle = false
-	match dest_type:
-		1: # wall
-			pass
-		2: # spike
-			deflate() # deflates player
-		4: # hole
-			complete_move(direction_vec)
-			fall() # ...much to the player's peup :D
-		8: # Heddood, is there a better way to do this with match? i.e. \"4 or 8\"? But that didn't work...
-			complete_move(direction_vec)
-			fall()
-		_:
-			no_tile_obstacle = true
-	if(no_tile_obstacle):
-		var beuld = get_parent().get_boulds_here(dest_coord) # the list of boulders in the destination
-		if beuld.size() > 0: # if there is a boulder there...
-			if get_parent().push_bould(beuld[0],direction): # ...and, if the boulder is pushed...
-				complete_move(direction_vec) # ...then movement occurs!
-		else: # on the other hand, if no boulder...
-			complete_move(direction_vec) # ...movement occurs!
-			
-func peuped(): # player's health has been compromised
-	is_healthy = false
-	if get_parent().check_victory():
-		get_parent().emit_signal(\"pyrrhic_victory\") # if peuped after won
-	else:
-		get_parent().emit_signal(\"defeat\") # emits defeat signal from TileMap
-	
-
-func deflate(): # deflates player
-	$PlayerAnimations.stop()
-	$PlayerSprite.rotation_degrees=0
-	$PlayerSprite.frame = 1
-	peuped()
-	
-func fall(): # fells player
-	$PlayerAnimations.play(\"fall\")
-	get_parent().emit_signal(\"knock\")
-	peuped()
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if is_healthy : 
-		var direction = check_for_move_action()
-		if direction != NONE :
-			play_movement_animation(direction)
-			attempt_move(direction)
-"
+9/name = "tileset.png 9"
+9/texture = ExtResource( 1 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 0, 96, 32, 32 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shapes = [  ]
+9/z_index = 0
 
 [sub_resource type="Animation" id=4]
 resource_name = "fall"
@@ -409,8 +241,8 @@ tracks/1/keys = {
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 5, 0, 7, 5, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 65536, 1, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 1, 0, 131072, 1, 0, 131073, 6, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 7, 0, 131080, 8, 0, 131081, 0, 0, 131082, 0, 0, 131083, 2, 0, 131084, 0, 0, 131085, 3, 0, 131086, 0, 0, 131087, 1, 0, 196608, 1, 0, 196609, 0, 0, 196610, 3, 0, 196611, 4, 0, 196612, 0, 0, 196613, 1, 0, 196614, 1, 0, 196615, 1, 0, 196616, 1, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 4, 0, 196621, 1, 0, 196622, 1, 0, 196623, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 1, 0, 262155, 1, 0, 262156, 1, 0, 262157, 1, 0, 262158, 5, 0, 262159, 5, 0, 327680, 5, 0, 327681, 5, 0, 327682, 5, 0, 327683, 1, 0, 327684, 0, 0, 327685, 0, 0, 327686, 3, 0, 327687, 0, 0, 327688, 3, 0, 327689, 0, 0, 327690, 1, 0, 327691, 5, 0, 327692, 5, 0, 327693, 5, 0, 327694, 5, 0, 327695, 5, 0, 393216, 5, 0, 393217, 5, 0, 393218, 5, 0, 393219, 1, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 2, 0, 393224, 0, 0, 393225, 0, 0, 393226, 1, 0, 393227, 5, 0, 393228, 5, 0, 393229, 5, 0, 393230, 5, 0, 393231, 5, 0, 458752, 5, 0, 458753, 5, 0, 458754, 5, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 1, 0, 458763, 5, 0, 458764, 5, 0, 458765, 5, 0, 458766, 5, 0, 458767, 5, 0 )
-script = SubResource( 2 )
+tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 65536, 1, 0, 65537, 6, 0, 65538, 3, 0, 65539, 4, 0, 65540, 1, 0, 131072, 1, 0, 131073, 1, 0, 131074, 1, 0, 131075, 1, 0, 131076, 1, 0 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -418,18 +250,18 @@ __meta__ = {
 [node name="Player" type="Node2D" parent="."]
 position = Vector2( 48.6456, 49.1089 )
 z_index = 10
-script = SubResource( 3 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="TwinkleSprite" type="Sprite" parent="Player"]
 position = Vector2( 0.208775, 0.0302658 )
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 hframes = 2
 
 [node name="PlayerSprite" type="Sprite" parent="Player"]
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 vframes = 2
 hframes = 4
 frame = 4

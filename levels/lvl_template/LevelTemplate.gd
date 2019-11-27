@@ -1,12 +1,14 @@
 extends TileMap
 
-var Boulder = preload("res://levels/level_template/Boulder.tscn")
+var Boulder = preload("res://levels/lvl_template/Boulder.tscn")
 var obstacles = [1,2] # tileid of obstacles (that upon which a boulder cannot be pushed)
 
 signal victory
 signal defeat
 signal pyrrhic_victory
 signal player_moved
+signal bouldpush
+signal knock
 
 enum {NONE, UP, DOWN, LEFT, RIGHT}
 const dir_to_displacement_vec = {
@@ -21,8 +23,12 @@ const dir_to_displacement_vec = {
 func _ready():
 	
 	# put boulders in all the peuptiles
-	for cell in get_used_cells_by_id(3): # peuptile
+	for cell in (get_used_cells_by_id(3)+get_used_cells_by_id(7)): # peuptile
 		var beuld = Boulder.instance()
+		if cell in get_used_cells_by_id(3):
+			beuld.change_bould_type("c")
+		elif cell in get_used_cells_by_id(7):
+			beuld.change_bould_type("t")
 		$Boulders.add_child(beuld)
 		beuld.position = map_to_world(cell) + get_cell_size()/2
 		set_cellv(cell, 0) # convert floor to regular floor once initial boulder has been placed
@@ -44,21 +50,26 @@ func check_victory(): # checks for victory, and sends victory signal if so
 	if $Player.is_healthy: emit_signal("victory")
 	return true
 	
-func attempt_bouldrop(bould): # drops a boulder if it's on a hole
-	if get_cellv(world_to_map(bould.position)) == 4: # deep hole
+func check_boulded_tile(bould): # drops a boulder if it's on a hole
+	var tile_type = get_cellv(world_to_map(bould.position))
+	if (bould.bould_type == "c" and tile_type == 4) or (bould.bould_type == "t" and tile_type == 8): # correctly shapred hole
 		bould.knock_bould()
+		emit_signal("knock")
 		check_victory() # check for victory every time a bould is knocked
+	if tile_type == 9: # switcher tile
+		bould.switch_bould_type()
 
 func push_bould(bould,dir): # moves bould in a certain direction, or returns false if it can't
 	if bould.is_topside:
 		var dest_coord = world_to_map(bould.position) + dir_to_displacement_vec[dir]
 		var dest_type = get_cellv(dest_coord)
 		if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size()) == 0:
-			bould.position = map_to_world(dest_coord)+cell_size/2
 			match dir:
-				RIGHT: bould.rotate_bould("cw")
-				LEFT: bould.rotate_bould("ccw")
-			attempt_bouldrop(bould)
+				RIGHT: bould.rotate_bould(1)
+				LEFT: bould.rotate_bould(-1)
+			emit_signal("bouldpush")
+			bould.position = map_to_world(dest_coord)+cell_size/2
+			check_boulded_tile(bould)
 			return true
 	return false
 					
