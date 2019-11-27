@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Pump-SoundBible.com-1910879976.wav-b5390507594afade3ee9a97f94f0c384.sample"
+
+[deps]
+
+source_file="res://resources/sounds/Pump-SoundBible.com-1910879976.wav"
+dest_files=[ "res://.import/Pump-SoundBible.com-1910879976.wav-b5390507594afade3ee9a97f94f0c384.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
