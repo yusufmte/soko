@@ -5,8 +5,7 @@ extends Node
 func load_level(lvl):
 	var Level = load("res://levels/level"+str(lvl)+".tscn")
 	var level = Level.instance()
-	level.set_name("current_level")
-	add_child(level) # then make a new one
+	add_child(level)
 	
 	# connect all the signals
 	var main_node = get_parent()
@@ -20,6 +19,4 @@ func load_level(lvl):
 
 func deload_level():
 	for child in get_children(): # if there's a level, remove it
-		if child.get_name() == "current_level":
-			child.free() # this should be queue_free(), but that results in player duplication...pls remember to address this issue later
-			
+		child.queue_free()
