@@ -66,4 +66,5 @@ texture = ExtResource( 3 )
 [node name="TBoulder" type="Sprite" parent="."]
 position = Vector2( 223.578, 55.5714 )
 texture = ExtResource( 4 )
+[connection signal="item_activated" from="LevelSelectBox" to="." method="_on_LevelSelectBox_item_activated"]
 [connection signal="pressed" from="QuitButt" to="." method="_on_QuitButt_pressed"]

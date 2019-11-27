@@ -6,31 +6,14 @@ var current_level = 1
 func _ready():
 	
 	# connect buttons
-	$Menu/QuitButt.connect("pressed",self,"quit_button")
+	$Menu.connect("quit",self,"quit_button")
+	$Menu.connect("level_selected",self,"load_level")
 	$HUD.connect("restart",self,"reload_level")
 	$HUD.connect("menu",self,"return_to_menu")
 	$HUD.connect("quit",self,"quit_button")
-	
-	# populate level select box
-	for i in range(num_levels()-1):
-		$Menu/LevelSelectBox.add_item("Level "+str(i+1))
-		
-	$Menu/LevelSelectBox.connect("item_activated",self,"_on_level_selected")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
-func num_levels(): # returns number of levels
-	var level_count = 1
-	var file = File.new()
-	while file.file_exists("res://levels/level"+str(level_count)+".tscn"):
-		level_count += 1
-	return level_count
 
-func _on_level_selected(lvl): # when a level is activated through the selector
-	load_level(lvl+1) # need to add one because of the indices in the selector box
-	
 func load_level(lvl): # when load a new level
 
 	$Menu.hide()
