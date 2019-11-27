@@ -19,8 +19,7 @@ func load_level(lvl): # when load a new level
 	current_level = lvl
 	
 	$LevelLoader.deload_level()
-	for audio in $AudioManager.get_children():
-		audio.stop() # stop any currently playing audio
+	$AudioManager.stop_all()
 	
 	$LevelLoader.load_level(lvl)
 	
@@ -33,8 +32,7 @@ func reload_level():
 
 func return_to_menu():
 	$LevelLoader.deload_level()
-	for audio in $AudioManager.get_children():
-		audio.stop() # stop any currently playing audio
+	$AudioManager.stop_all()
 	$HUD.hide()
 	$Menu.show()
 
