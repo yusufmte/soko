@@ -45,9 +45,7 @@ func load_level(lvl): # when load a new level
 	add_child(level) # then make a new one
 	
 	# reset HUD
-	$HUD/MsgLabel.text = ""
-	$HUD/MoveCounter.text = "0"
-	$HUD/LvlLabel.text = "Level "+str(lvl)
+	$HUD.reset(lvl)
 	show_HUD()
 	
 	# connect all the signals

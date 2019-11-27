@@ -13,3 +13,8 @@ func _on_MenuButt_pressed():
 
 func _on_QuitButt_pressed():
 	emit_signal("quit")
+
+func reset(lvl):
+	$MsgLabel.text = ""
+	$MoveCounter.text = "0"
+	$LvlLabel.text = "Level "+str(lvl)
