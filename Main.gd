@@ -76,7 +76,7 @@ func quit_button(): # quit button pressed
 
 	
 func _on_player_moved(): # when the player changes position
-	$HUD/MoveCounter.text = str(int($HUD/MoveCounter.text)+1) # increment movecounter
+	$HUD.increment_move_counter()
 	$AudioManager/walk_sound.play()
 
 func _on_boulder_pushed(): # when the player pushes a boulder
@@ -86,13 +86,13 @@ func _on_thing_knocked(): # when a beuld is knocked
 	$AudioManager/knock_sound.play()
 	
 func _on_victory(): # when win
-	$HUD/MsgLabel.text = "You won!"
+	$HUD.set_text("You won!")
 	$AudioManager/victory_sound.play()
 	
 func _on_defeat(): # when lose
-	$HUD/MsgLabel.text = "You lost..."
+	$HUD.set_text("You lost...")
 	$AudioManager/defeat_sound.play()
 
 func _on_pyrrhic_victory(): # when win, then get peuped
-	$HUD/MsgLabel.text = "You...won?"
+	$HUD.set_text("You...won?")
 	$AudioManager/pyrrhic_victory_sound.play()
