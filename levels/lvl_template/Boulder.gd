@@ -1,10 +1,14 @@
 extends Node2D
 
 export var is_topside = true # says whether bould is topside
-export var bould_type = "c"
+
+enum BoulderType {CIRCLE, TRIANGLE}
+
+export (BoulderType) var bould_type = BoulderType.CIRCLE
+
 const bould_type_to_sprite_frame = {
-	"c" : 0,
-	"t" : 1,
+	BoulderType.CIRCLE : 0,
+	BoulderType.TRIANGLE : 1,
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -16,15 +20,15 @@ func change_bould_type(new_type):
 	$BoulderSprite.frame = bould_type_to_sprite_frame[bould_type]
 
 func switch_bould_type():
-	if bould_type == "c":
-		change_bould_type("t")
-	elif bould_type == "t":
-		change_bould_type("c")
+	if bould_type == BoulderType.CIRCLE:
+		change_bould_type(BoulderType.TRIANGLE)
+	elif bould_type == BoulderType.TRIANGLE:
+		change_bould_type(BoulderType.CIRCLE)
 	
 func rotate_bould(dir): # should happen when pushed
-	if bould_type == "c":
+	if bould_type == BoulderType.CIRCLE:
 		$BoulderSprite.rotate(dir*PI/2)
-	elif bould_type == "t":
+	elif bould_type == BoulderType.TRIANGLE:
 		$BoulderSprite.rotate(2*PI/3)
 	
 func knock_bould(): # knocks bould down (should happen at holes)
