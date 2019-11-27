@@ -33,7 +33,7 @@ func _on_level_selected(lvl): # when a level is activated through the selector
 	
 func load_level(lvl): # when load a new level
 
-	hide_menu()
+	$Menu.hide()
 	
 	current_level = lvl
 	
@@ -46,7 +46,7 @@ func load_level(lvl): # when load a new level
 	
 	# reset HUD
 	$HUD.reset(lvl)
-	show_HUD()
+	$HUD.show()
 	
 	# connect all the signals
 	level.connect("player_moved",self,"_on_player_moved")
@@ -62,31 +62,18 @@ func deload_level():
 			child.free() # this should be queue_free(), but that results in player duplication...pls remember to address this issue later
 	for audio in $AudioManager.get_children():
 		audio.stop() # stop any currently playing audio
-	hide_HUD()
+	$HUD.hide()
 
 func reload_level():
 	load_level(current_level)
 
 func return_to_menu():
 	deload_level()
-	show_menu()
+	$Menu.show()
 
 func quit_button(): # quit button pressed
 	get_tree().quit() # quit the current scene tree (should exit game)
 
-func show_HUD():
-	$HUD.show()
-
-
-func show_menu():
-	$Menu.show()
-
-	
-func hide_HUD():
-	$HUD.hide()
-
-func hide_menu():
-	$Menu.hide()
 	
 func _on_player_moved(): # when the player changes position
 	$HUD/MoveCounter.text = str(int($HUD/MoveCounter.text)+1) # increment movecounter
