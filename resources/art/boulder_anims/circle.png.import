@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/1.png-94aaf9428c9585a9f1376114bec40aaa.stex"
+path="res://.import/circle.png-0bc874ed335db6303fab485cd405290b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/art/boulder_anims/1.png"
-dest_files=[ "res://.import/1.png-94aaf9428c9585a9f1376114bec40aaa.stex" ]
+source_file="res://resources/art/boulder_anims/circle.png"
+dest_files=[ "res://.import/circle.png-0bc874ed335db6303fab485cd405290b.stex" ]
 
 [params]
 

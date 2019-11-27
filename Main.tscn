@@ -21,10 +21,7 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=7]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=5]
@@ -33,13 +30,16 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 2 )
+
 [sub_resource type="DynamicFont" id=9]
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=10]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 2 )
 
 [node name="Main" type="Node"]
@@ -106,7 +106,7 @@ margin_left = 12.5701
 margin_top = 16.7601
 margin_right = 62.5701
 margin_bottom = 34.7601
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 4 )
 text = "Level"
 
 [node name="MsgLabel" type="Label" parent="HUD"]
@@ -115,7 +115,7 @@ margin_left = 108.715
 margin_top = 16.3016
 margin_right = 218.715
 margin_bottom = 36.3016
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 5 )
 
 [node name="MoveLabel" type="Label" parent="HUD"]
 visible = false
@@ -123,7 +123,7 @@ margin_left = 141.652
 margin_top = 53.9495
 margin_right = 191.652
 margin_bottom = 71.9495
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "MOVES"
 
 [node name="MoveCounter" type="Label" parent="HUD"]
@@ -132,7 +132,7 @@ margin_left = 141.652
 margin_top = 74.7495
 margin_right = 181.652
 margin_bottom = 92.7495
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "0"
 align = 1
 
@@ -142,7 +142,7 @@ margin_left = 8.64856
 margin_top = 98.6671
 margin_right = 90.6486
 margin_bottom = 122.667
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "restart"
 
 [node name="MenuButt" type="Button" parent="HUD"]
@@ -151,7 +151,7 @@ margin_left = 99.5485
 margin_top = 98.667
 margin_right = 153.548
 margin_bottom = 122.667
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 9 )
 text = "menu"
 
 [node name="QuitButt" type="Button" parent="HUD"]
@@ -160,7 +160,7 @@ margin_left = 159.785
 margin_top = 100.193
 margin_right = 211.785
 margin_bottom = 124.193
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 10 )
 text = "quit"
 
 [node name="AudioManager" type="Node" parent="."]

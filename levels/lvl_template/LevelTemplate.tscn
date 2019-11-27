@@ -75,6 +75,26 @@
 6/navigation_offset = Vector2( 0, 0 )
 6/shapes = [  ]
 6/z_index = 0
+7/name = "tileset.png 7"
+7/texture = ExtResource( 1 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 32, 64, 32, 32 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 0, 0 )
+7/navigation_offset = Vector2( 0, 0 )
+7/shapes = [  ]
+7/z_index = 0
+8/name = "tileset.png 8"
+8/texture = ExtResource( 1 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 64, 64, 32, 32 )
+8/tile_mode = 0
+8/occluder_offset = Vector2( 0, 0 )
+8/navigation_offset = Vector2( 0, 0 )
+8/shapes = [  ]
+8/z_index = 0
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends TileMap
@@ -102,8 +122,12 @@ const dir_to_displacement_vec = {
 func _ready():
 	
 	# put boulders in all the peuptiles
-	for cell in get_used_cells_by_id(3): # peuptile
+	for cell in (get_used_cells_by_id(3)+get_used_cells_by_id(7)): # peuptile
 		var beuld = Boulder.instance()
+		if cell in get_used_cells_by_id(3):
+			beuld.change_bould_type(\"c\")
+		elif cell in get_used_cells_by_id(7):
+			beuld.change_bould_type(\"t\")
 		$Boulders.add_child(beuld)
 		beuld.position = map_to_world(cell) + get_cell_size()/2
 		set_cellv(cell, 0) # convert floor to regular floor once initial boulder has been placed
@@ -126,7 +150,8 @@ func check_victory(): # checks for victory, and sends victory signal if so
 	return true
 	
 func attempt_bouldrop(bould): # drops a boulder if it's on a hole
-	if get_cellv(world_to_map(bould.position)) == 4: # deep hole
+	var tile_type = get_cellv(world_to_map(bould.position))
+	if (bould.bould_type == \"c\" and tile_type == 4) or (bould.bould_type == \"t\" and tile_type == 8): # correctly shapred hole
 		bould.knock_bould()
 		emit_signal(\"knock\")
 		check_victory() # check for victory every time a bould is knocked
@@ -137,8 +162,8 @@ func push_bould(bould,dir): # moves bould in a certain direction, or returns fal
 		var dest_type = get_cellv(dest_coord)
 		if (not dest_type in obstacles) and (get_boulds_here(dest_coord).size()) == 0:
 			match dir:
-				RIGHT: bould.rotate_bould(\"cw\")
-				LEFT: bould.rotate_bould(\"ccw\")
+				RIGHT: bould.rotate_bould(1)
+				LEFT: bould.rotate_bould(-1)
 			emit_signal(\"bouldpush\")
 			bould.position = map_to_world(dest_coord)+cell_size/2
 			attempt_bouldrop(bould)
@@ -381,7 +406,7 @@ tracks/1/keys = {
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 5, 0, 7, 5, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 65536, 1, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 1, 0, 131072, 1, 0, 131073, 6, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 2, 0, 131084, 0, 0, 131085, 3, 0, 131086, 0, 0, 131087, 1, 0, 196608, 1, 0, 196609, 0, 0, 196610, 3, 0, 196611, 4, 0, 196612, 0, 0, 196613, 1, 0, 196614, 1, 0, 196615, 1, 0, 196616, 1, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 4, 0, 196621, 1, 0, 196622, 1, 0, 196623, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 1, 0, 262155, 1, 0, 262156, 1, 0, 262157, 1, 0, 262158, 5, 0, 262159, 5, 0, 327680, 5, 0, 327681, 5, 0, 327682, 5, 0, 327683, 1, 0, 327684, 0, 0, 327685, 0, 0, 327686, 3, 0, 327687, 0, 0, 327688, 3, 0, 327689, 0, 0, 327690, 1, 0, 327691, 5, 0, 327692, 5, 0, 327693, 5, 0, 327694, 5, 0, 327695, 5, 0, 393216, 5, 0, 393217, 5, 0, 393218, 5, 0, 393219, 1, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 2, 0, 393224, 0, 0, 393225, 0, 0, 393226, 1, 0, 393227, 5, 0, 393228, 5, 0, 393229, 5, 0, 393230, 5, 0, 393231, 5, 0, 458752, 5, 0, 458753, 5, 0, 458754, 5, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 1, 0, 458763, 5, 0, 458764, 5, 0, 458765, 5, 0, 458766, 5, 0, 458767, 5, 0 )
+tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 5, 0, 7, 5, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 65536, 1, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 1, 0, 131072, 1, 0, 131073, 6, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 7, 0, 131080, 8, 0, 131081, 0, 0, 131082, 0, 0, 131083, 2, 0, 131084, 0, 0, 131085, 3, 0, 131086, 0, 0, 131087, 1, 0, 196608, 1, 0, 196609, 0, 0, 196610, 3, 0, 196611, 4, 0, 196612, 0, 0, 196613, 1, 0, 196614, 1, 0, 196615, 1, 0, 196616, 1, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 4, 0, 196621, 1, 0, 196622, 1, 0, 196623, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 1, 0, 262155, 1, 0, 262156, 1, 0, 262157, 1, 0, 262158, 5, 0, 262159, 5, 0, 327680, 5, 0, 327681, 5, 0, 327682, 5, 0, 327683, 1, 0, 327684, 0, 0, 327685, 0, 0, 327686, 3, 0, 327687, 0, 0, 327688, 3, 0, 327689, 0, 0, 327690, 1, 0, 327691, 5, 0, 327692, 5, 0, 327693, 5, 0, 327694, 5, 0, 327695, 5, 0, 393216, 5, 0, 393217, 5, 0, 393218, 5, 0, 393219, 1, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 2, 0, 393224, 0, 0, 393225, 0, 0, 393226, 1, 0, 393227, 5, 0, 393228, 5, 0, 393229, 5, 0, 393230, 5, 0, 393231, 5, 0, 458752, 5, 0, 458753, 5, 0, 458754, 5, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 1, 0, 458763, 5, 0, 458764, 5, 0, 458765, 5, 0, 458766, 5, 0, 458767, 5, 0 )
 script = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
