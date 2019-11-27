@@ -34,4 +34,10 @@ func rotate_bould(dir): # should happen when pushed
 func knock_bould(): # knocks bould down (should happen at holes)
 	$FallAnimation.play("fall")
 	is_topside = false
+	
+func is_circle():
+	return bould_type == BoulderType.CIRCLE
+
+func is_triangle():
+	return bould_type == BoulderType.TRIANGLE
 

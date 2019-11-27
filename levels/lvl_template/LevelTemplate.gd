@@ -52,7 +52,7 @@ func check_victory(): # checks for victory, and sends victory signal if so
 	
 func check_boulded_tile(bould): # drops a boulder if it's on a hole
 	var tile_type = get_cellv(world_to_map(bould.position))
-	if (bould.bould_type == bould.BoulderType.CIRCLE and tile_type == 4) or (bould.bould_type == bould.BoulderType.TRIANGLE and tile_type == 8): # correctly shapred hole
+	if (bould.is_circle() and tile_type == 4) or (bould.is_triangle() and tile_type == 8): # correctly shapred hole
 		bould.knock_bould()
 		emit_signal("knock")
 		check_victory() # check for victory every time a bould is knocked
@@ -72,7 +72,4 @@ func push_bould(bould,dir): # moves bould in a certain direction, or returns fal
 			check_boulded_tile(bould)
 			return true
 	return false
-					
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#pass
+
