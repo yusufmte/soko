@@ -76,22 +76,16 @@ func quit_button(): # quit button pressed
 
 func show_HUD():
 	$HUD.show()
-	for label in $HUD.get_children():
-		label.show()
+
 
 func show_menu():
 	$Menu.show()
-	for label in $Menu.get_children():
-		label.show()
+
 	
 func hide_HUD():
-	for label in $HUD.get_children():
-		label.hide()
 	$HUD.hide()
 
 func hide_menu():
-	for label in $Menu.get_children():
-		label.hide()
 	$Menu.hide()
 	
 func _on_player_moved(): # when the player changes position
