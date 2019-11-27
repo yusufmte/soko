@@ -1,10 +1,10 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://resources/fonts/Mechanical.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://resources/art/boulder_anims/circle.png" type="Texture" id=3]
 [ext_resource path="res://resources/art/boulder_anims/triangle.png" type="Texture" id=4]
-[ext_resource path="res://resources/art/arrowkeys.png" type="Texture" id=5]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://resources/sounds/victory.wav" type="AudioStream" id=6]
 [ext_resource path="res://resources/sounds/defeat.wav" type="AudioStream" id=7]
 [ext_resource path="res://resources/sounds/you_peuped.wav" type="AudioStream" id=8]
@@ -24,27 +24,6 @@ font_data = ExtResource( 2 )
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=5]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=6]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=7]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=8]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=9]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=10]
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=11]
 font_data = ExtResource( 2 )
 
 [node name="Main" type="Node"]
@@ -97,85 +76,8 @@ texture = ExtResource( 3 )
 position = Vector2( 223.578, 55.5714 )
 texture = ExtResource( 4 )
 
-[node name="HUD" type="Panel" parent="."]
+[node name="HUD" parent="." instance=ExtResource( 5 )]
 visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -230.302
-margin_top = -140.698
-margin_right = -9.30164
-margin_bottom = -10.6984
-
-[node name="Controls" type="Sprite" parent="HUD"]
-visible = false
-position = Vector2( 78.6198, 72.1774 )
-scale = Vector2( 1, 1.04 )
-texture = ExtResource( 5 )
-
-[node name="LvlLabel" type="Label" parent="HUD"]
-visible = false
-margin_left = 12.5701
-margin_top = 16.7601
-margin_right = 62.5701
-margin_bottom = 34.7601
-custom_fonts/font = SubResource( 5 )
-text = "Level"
-
-[node name="MsgLabel" type="Label" parent="HUD"]
-visible = false
-margin_left = 108.715
-margin_top = 16.3016
-margin_right = 218.715
-margin_bottom = 36.3016
-custom_fonts/font = SubResource( 6 )
-
-[node name="MoveLabel" type="Label" parent="HUD"]
-visible = false
-margin_left = 141.652
-margin_top = 53.9495
-margin_right = 191.652
-margin_bottom = 71.9495
-custom_fonts/font = SubResource( 7 )
-text = "MOVES"
-
-[node name="MoveCounter" type="Label" parent="HUD"]
-visible = false
-margin_left = 141.652
-margin_top = 74.7495
-margin_right = 181.652
-margin_bottom = 92.7495
-custom_fonts/font = SubResource( 8 )
-text = "0"
-align = 1
-
-[node name="RestartButt" type="Button" parent="HUD"]
-visible = false
-margin_left = 8.64856
-margin_top = 98.6671
-margin_right = 90.6486
-margin_bottom = 122.667
-custom_fonts/font = SubResource( 9 )
-text = "restart"
-
-[node name="MenuButt" type="Button" parent="HUD"]
-visible = false
-margin_left = 99.5485
-margin_top = 98.667
-margin_right = 153.548
-margin_bottom = 122.667
-custom_fonts/font = SubResource( 10 )
-text = "menu"
-
-[node name="QuitButt" type="Button" parent="HUD"]
-visible = false
-margin_left = 159.785
-margin_top = 100.193
-margin_right = 211.785
-margin_bottom = 124.193
-custom_fonts/font = SubResource( 11 )
-text = "quit"
 
 [node name="AudioManager" type="Node" parent="."]
 

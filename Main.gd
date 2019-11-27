@@ -7,9 +7,9 @@ func _ready():
 	
 	# connect buttons
 	$Menu/QuitButt.connect("pressed",self,"quit_button")
-	$HUD/RestartButt.connect("pressed",self,"reload_level")
-	$HUD/MenuButt.connect("pressed",self,"return_to_menu")
-	$HUD/QuitButt.connect("pressed",self,"quit_button")
+	$HUD.connect("restart",self,"reload_level")
+	$HUD.connect("menu",self,"return_to_menu")
+	$HUD.connect("quit",self,"quit_button")
 	
 	# populate level select box
 	for i in range(num_levels()-1):
