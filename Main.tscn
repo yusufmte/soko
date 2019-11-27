@@ -1,14 +1,15 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Menu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=3]
-[ext_resource path="res://resources/sounds/victory.wav" type="AudioStream" id=4]
-[ext_resource path="res://resources/sounds/defeat.wav" type="AudioStream" id=5]
-[ext_resource path="res://resources/sounds/you_peuped.wav" type="AudioStream" id=6]
-[ext_resource path="res://resources/sounds/walk.wav" type="AudioStream" id=7]
-[ext_resource path="res://resources/sounds/push.wav" type="AudioStream" id=8]
-[ext_resource path="res://resources/sounds/knock.wav" type="AudioStream" id=9]
+[ext_resource path="res://LevelLoader.gd" type="Script" id=4]
+[ext_resource path="res://resources/sounds/victory.wav" type="AudioStream" id=5]
+[ext_resource path="res://resources/sounds/defeat.wav" type="AudioStream" id=6]
+[ext_resource path="res://resources/sounds/you_peuped.wav" type="AudioStream" id=7]
+[ext_resource path="res://resources/sounds/walk.wav" type="AudioStream" id=8]
+[ext_resource path="res://resources/sounds/push.wav" type="AudioStream" id=9]
+[ext_resource path="res://resources/sounds/knock.wav" type="AudioStream" id=10]
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
@@ -18,22 +19,26 @@ script = ExtResource( 1 )
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 visible = false
 
+[node name="LevelLoader" type="Node" parent="."]
+script = ExtResource( 4 )
+
 [node name="AudioManager" type="Node" parent="."]
+editor/display_folded = true
 
 [node name="victory_sound" type="AudioStreamPlayer" parent="AudioManager"]
-stream = ExtResource( 4 )
-
-[node name="defeat_sound" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource( 5 )
 
-[node name="pyrrhic_victory_sound" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="defeat_sound" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource( 6 )
 
-[node name="walk_sound" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="pyrrhic_victory_sound" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource( 7 )
 
-[node name="push_sound" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="walk_sound" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource( 8 )
 
-[node name="knock_sound" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="push_sound" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource( 9 )
+
+[node name="knock_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource( 10 )
