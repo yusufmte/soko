@@ -1,15 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://levels/lvl_template/Boulder.gd" type="Script" id=1]
-[ext_resource path="res://resources/art/boulder_anims/circle.png" type="Texture" id=2]
+[ext_resource path="res://resources/art/boulder_anims/boulders.png" type="Texture" id=2]
 [ext_resource path="res://resources/art/twinkle_anim/spritesheet.png" type="Texture" id=3]
-[ext_resource path="res://resources/art/boulder_anims/triangle.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
-resource_name = "cfall"
+resource_name = "fall"
 length = 2.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("CBoulderSprite:scale")
+tracks/0/path = NodePath("BoulderSprite:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -21,7 +20,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CBoulderSprite:visible")
+tracks/1/path = NodePath("BoulderSprite:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -57,58 +56,6 @@ tracks/3/keys = {
 "values": [ 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "tfall"
-length = 2.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("TwinkleSprite:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1.5, 2.1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("TwinkleSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 1.5, 1.7, 1.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("TBoulderSprite:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("TBoulderSprite:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
 [node name="Boulder" type="Node2D"]
 position = Vector2( 127.745, 67.0643 )
 script = ExtResource( 1 )
@@ -116,8 +63,9 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CBoulderSprite" type="Sprite" parent="."]
+[node name="BoulderSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+hframes = 2
 
 [node name="TwinkleSprite" type="Sprite" parent="."]
 visible = false
@@ -125,8 +73,4 @@ texture = ExtResource( 3 )
 hframes = 2
 
 [node name="FallAnimation" type="AnimationPlayer" parent="."]
-anims/cfall = SubResource( 1 )
-anims/tfall = SubResource( 2 )
-
-[node name="TBoulderSprite" type="Sprite" parent="."]
-texture = ExtResource( 4 )
+anims/fall = SubResource( 1 )
