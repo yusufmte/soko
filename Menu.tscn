@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Menu.gd" type="Script" id=1]
+[ext_resource path="res://resources/fonts/Mechanical.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://resources/art/boulder_anims/circle.png" type="Texture" id=3]
+[ext_resource path="res://resources/art/boulder_anims/triangle.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
+[node name="Menu" type="Panel"]
+margin_left = 350.0
+margin_top = 96.0
+margin_right = 604.0
+margin_bottom = 669.0
+script = ExtResource( 1 )
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -81.4618
+margin_top = 24.8046
+margin_right = 77.5382
+margin_bottom = 90.8046
+custom_fonts/font = SubResource( 1 )
+text = "soko"
+
+[node name="LevelSelectLabel" type="Label" parent="."]
+margin_left = 37.4783
+margin_top = 105.973
+margin_right = 219.478
+margin_bottom = 130.973
+custom_fonts/font = SubResource( 2 )
+text = "Select level:"
+
+[node name="LevelSelectBox" type="ItemList" parent="."]
+margin_left = 38.0
+margin_top = 135.0
+margin_right = 217.0
+margin_bottom = 506.0
+custom_fonts/font = SubResource( 3 )
+
+[node name="QuitButt" type="Button" parent="."]
+margin_left = 97.9235
+margin_top = 523.355
+margin_right = 154.924
+margin_bottom = 549.355
+custom_fonts/font = SubResource( 4 )
+text = "quit"
+
+[node name="CBoulder" type="Sprite" parent="."]
+position = Vector2( 23.2624, 58.1561 )
+texture = ExtResource( 3 )
+
+[node name="TBoulder" type="Sprite" parent="."]
+position = Vector2( 223.578, 55.5714 )
+texture = ExtResource( 4 )
+[connection signal="item_activated" from="LevelSelectBox" to="." method="_on_LevelSelectBox_item_activated"]
+[connection signal="pressed" from="QuitButt" to="." method="_on_QuitButt_pressed"]

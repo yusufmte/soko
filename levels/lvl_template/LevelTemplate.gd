@@ -26,9 +26,9 @@ func _ready():
 	for cell in (get_used_cells_by_id(3)+get_used_cells_by_id(7)): # peuptile
 		var beuld = Boulder.instance()
 		if cell in get_used_cells_by_id(3):
-			beuld.change_bould_type("c")
+			beuld.change_bould_type(beuld.BoulderType.CIRCLE)
 		elif cell in get_used_cells_by_id(7):
-			beuld.change_bould_type("t")
+			beuld.change_bould_type(beuld.BoulderType.TRIANGLE)
 		$Boulders.add_child(beuld)
 		beuld.position = map_to_world(cell) + get_cell_size()/2
 		set_cellv(cell, 0) # convert floor to regular floor once initial boulder has been placed
@@ -52,7 +52,7 @@ func check_victory(): # checks for victory, and sends victory signal if so
 	
 func check_boulded_tile(bould): # drops a boulder if it's on a hole
 	var tile_type = get_cellv(world_to_map(bould.position))
-	if (bould.bould_type == "c" and tile_type == 4) or (bould.bould_type == "t" and tile_type == 8): # correctly shapred hole
+	if (bould.is_circle() and tile_type == 4) or (bould.is_triangle() and tile_type == 8): # correctly shapred hole
 		bould.knock_bould()
 		emit_signal("knock")
 		check_victory() # check for victory every time a bould is knocked
@@ -72,7 +72,4 @@ func push_bould(bould,dir): # moves bould in a certain direction, or returns fal
 			check_boulded_tile(bould)
 			return true
 	return false
-					
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#pass
+
