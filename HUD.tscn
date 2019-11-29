@@ -36,8 +36,21 @@ margin_right = -9.30164
 margin_bottom = -10.6984
 script = ExtResource( 1 )
 
-[node name="Controls" type="Sprite" parent="."]
-position = Vector2( 78.6198, 72.1774 )
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.5129
+margin_top = -22.9058
+margin_right = 2.48706
+margin_bottom = 33.0942
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controls" type="Sprite" parent="CenterContainer"]
+position = Vector2( 36.0125, 26.49 )
 scale = Vector2( 1, 1.04 )
 texture = ExtResource( 2 )
 
@@ -50,61 +63,69 @@ custom_fonts/font = SubResource( 1 )
 text = "Level"
 
 [node name="MsgLabel" type="Label" parent="."]
-margin_left = 108.715
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -112.285
 margin_top = 16.3016
-margin_right = 218.715
+margin_right = -2.28537
 margin_bottom = 36.3016
 custom_fonts/font = SubResource( 2 )
 
 [node name="MoveLabel" type="Label" parent="."]
-margin_left = 141.652
-margin_top = 53.9495
-margin_right = 191.652
-margin_bottom = 71.9495
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -79.3484
+margin_top = -11.0503
+margin_right = -29.3484
+margin_bottom = 6.94971
 custom_fonts/font = SubResource( 3 )
 text = "MOVES"
 
-[node name="MoveCounter" type="Label" parent="."]
-margin_left = 141.652
-margin_top = 74.7495
-margin_right = 181.652
-margin_bottom = 92.7495
+[node name="MoveCounter" type="Label" parent="MoveLabel"]
+margin_top = 20.8
+margin_right = 40.0
+margin_bottom = 38.8
 custom_fonts/font = SubResource( 4 )
 text = "0"
 align = 1
 
-[node name="RestartButt" type="Button" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.64856
-margin_top = -30.8192
-margin_right = -130.352
-margin_bottom = -6.81917
+margin_left = 14.0
+margin_top = -29.9996
+margin_right = -14.0004
+margin_bottom = -5.99957
+alignment = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RestartButt" type="Button" parent="HBoxContainer"]
+margin_right = 82.0
+margin_bottom = 24.0
+size_flags_horizontal = 0
 custom_fonts/font = SubResource( 5 )
 text = "restart"
 
-[node name="MenuButt" type="Button" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 99.5485
-margin_top = -30.0
-margin_right = -67.4524
-margin_bottom = -6.0
+[node name="MenuButt" type="Button" parent="HBoxContainer"]
+margin_left = 86.0
+margin_right = 138.0
+margin_bottom = 24.0
+size_flags_horizontal = 0
 custom_fonts/font = SubResource( 6 )
 text = "menu"
 
-[node name="QuitButt" type="Button" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 159.785
-margin_top = -30.0
-margin_right = -9.21536
-margin_bottom = -6.0
+[node name="QuitButt" type="Button" parent="HBoxContainer"]
+margin_left = 142.0
+margin_right = 194.0
+margin_bottom = 24.0
+size_flags_horizontal = 0
 custom_fonts/font = SubResource( 7 )
 text = "quit"
-[connection signal="pressed" from="RestartButt" to="." method="_on_RestartButt_pressed"]
-[connection signal="pressed" from="MenuButt" to="." method="_on_MenuButt_pressed"]
-[connection signal="pressed" from="QuitButt" to="." method="_on_QuitButt_pressed"]
+[connection signal="pressed" from="HBoxContainer/RestartButt" to="." method="_on_RestartButt_pressed"]
+[connection signal="pressed" from="HBoxContainer/MenuButt" to="." method="_on_MenuButt_pressed"]
+[connection signal="pressed" from="HBoxContainer/QuitButt" to="." method="_on_QuitButt_pressed"]

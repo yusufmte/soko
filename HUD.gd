@@ -16,11 +16,11 @@ func _on_QuitButt_pressed():
 
 func reset(lvl):
 	set_text("")
-	$MoveCounter.text = "0"
+	$MoveLabel/MoveCounter.text = "0"
 	$LvlLabel.text = "Level "+str(lvl)
 
 func increment_move_counter():
-	$MoveCounter.text = str(int($MoveCounter.text)+1)
+	$MoveLabel/MoveCounter.text = str(int($MoveLabel/MoveCounter.text)+1)
 
 func set_text(text):
 	$MsgLabel.text = text
