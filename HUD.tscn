@@ -74,26 +74,35 @@ text = "0"
 align = 1
 
 [node name="RestartButt" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 8.64856
-margin_top = 98.6671
-margin_right = 90.6486
-margin_bottom = 122.667
+margin_top = -30.8192
+margin_right = -130.352
+margin_bottom = -6.81917
 custom_fonts/font = SubResource( 5 )
 text = "restart"
 
 [node name="MenuButt" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 99.5485
-margin_top = 98.667
-margin_right = 153.548
-margin_bottom = 122.667
+margin_top = -30.0
+margin_right = -67.4524
+margin_bottom = -6.0
 custom_fonts/font = SubResource( 6 )
 text = "menu"
 
 [node name="QuitButt" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 159.785
-margin_top = 100.193
-margin_right = 211.785
-margin_bottom = 124.193
+margin_top = -30.0
+margin_right = -9.21536
+margin_bottom = -6.0
 custom_fonts/font = SubResource( 7 )
 text = "quit"
 [connection signal="pressed" from="RestartButt" to="." method="_on_RestartButt_pressed"]
