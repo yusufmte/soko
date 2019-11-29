@@ -107,7 +107,7 @@ __meta__ = {
 [node name="RestartButt" type="Button" parent="HBoxContainer"]
 margin_right = 82.0
 margin_bottom = 24.0
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 5 )
 text = "restart"
 
@@ -115,7 +115,7 @@ text = "restart"
 margin_left = 86.0
 margin_right = 138.0
 margin_bottom = 24.0
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 6 )
 text = "menu"
 
@@ -123,7 +123,7 @@ text = "menu"
 margin_left = 142.0
 margin_right = 194.0
 margin_bottom = 24.0
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 7 )
 text = "quit"
 [connection signal="pressed" from="HBoxContainer/RestartButt" to="." method="_on_RestartButt_pressed"]
