@@ -20,9 +20,10 @@ font_data = ExtResource( 2 )
 font_data = ExtResource( 2 )
 
 [node name="Menu" type="Panel"]
+anchor_right = 0.89
 margin_left = 350.0
 margin_top = 96.0
-margin_right = 604.0
+margin_right = -250.4
 margin_bottom = 669.0
 script = ExtResource( 1 )
 
@@ -36,6 +37,14 @@ margin_bottom = 90.8046
 custom_fonts/font = SubResource( 1 )
 text = "soko"
 
+[node name="CBoulder" type="Sprite" parent="Title"]
+position = Vector2( -22.2758, 33.3515 )
+texture = ExtResource( 3 )
+
+[node name="TBoulder" type="Sprite" parent="Title"]
+position = Vector2( 178.04, 30.7668 )
+texture = ExtResource( 4 )
+
 [node name="LevelSelectLabel" type="Label" parent="."]
 margin_left = 37.4783
 margin_top = 105.973
@@ -45,26 +54,24 @@ custom_fonts/font = SubResource( 2 )
 text = "Select level:"
 
 [node name="LevelSelectBox" type="ItemList" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 38.0
 margin_top = 135.0
-margin_right = 217.0
-margin_bottom = 506.0
+margin_right = -37.0
+margin_bottom = -67.0
 custom_fonts/font = SubResource( 3 )
 
 [node name="QuitButt" type="Button" parent="."]
-margin_left = 97.9235
-margin_top = 523.355
-margin_right = 154.924
-margin_bottom = 549.355
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -29.0765
+margin_top = -49.645
+margin_right = 27.924
+margin_bottom = -23.645
 custom_fonts/font = SubResource( 4 )
 text = "quit"
-
-[node name="CBoulder" type="Sprite" parent="."]
-position = Vector2( 23.2624, 58.1561 )
-texture = ExtResource( 3 )
-
-[node name="TBoulder" type="Sprite" parent="."]
-position = Vector2( 223.578, 55.5714 )
-texture = ExtResource( 4 )
 [connection signal="item_activated" from="LevelSelectBox" to="." method="_on_LevelSelectBox_item_activated"]
 [connection signal="pressed" from="QuitButt" to="." method="_on_QuitButt_pressed"]
