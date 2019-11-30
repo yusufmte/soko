@@ -55,10 +55,10 @@ func attempt_move(direction):
 		2: # spike
 			deflate() # deflates player
 		4: # hole
-			complete_move(direction_vec)
+			no_tile_obstacle = true
 			fall() # ...much to the player's peup :D
 		8: # Heddood, is there a better way to do this with match? i.e. "4 or 8"? But that didn't work...
-			complete_move(direction_vec)
+			no_tile_obstacle = true
 			fall()
 		_:
 			no_tile_obstacle = true
