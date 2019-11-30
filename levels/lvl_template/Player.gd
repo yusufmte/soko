@@ -48,24 +48,34 @@ func attempt_move(direction):
 	var direction_vec = dir_to_displacement_vec[direction]
 	var dest_coord = get_parent().world_to_map(position) + direction_vec # dest_coord stores the MAP coordinates of the destination
 	var dest_type = get_parent().get_cellv(dest_coord) # dest_type stores the tile id of the destination tile
-	var no_tile_obstacle = false # will set to true if player movement is obstructed by destination TILE (doesn't care about non-tile obstacles)
+	
+	# will set the following flag if player movement is not obstructed by destination TILE 
+	# (doesn't care about non-tile obstacles like stuck boulders)
+	var no_tile_obstacle = false 
 	match dest_type:
 		1: # wall
 			pass
 		2: # spike
 			deflate() # deflates player
-		4, 8: # any kind of hole
-			no_tile_obstacle = true
-			fall() # ...much to the player's peup :D
 		_:
 			no_tile_obstacle = true
+	
+	# in the case that no tiles have obstructed movement, handle any boulders that are in the way and possibly move
 	if(no_tile_obstacle):
 		var beuld = get_parent().get_boulds_here(dest_coord) # the list of boulders in the destination
 		if beuld.size() > 0: # if there is a boulder there...
 			if get_parent().push_bould(beuld[0],direction): # ...and, if the boulder is pushed...
-				complete_move(direction_vec) # ...then movement occurs!
+				complete_move(direction_vec)
 		else: # on the other hand, if no boulder...
-			complete_move(direction_vec) # ...movement occurs!
+			complete_move(direction_vec)
+	
+	# any movement that could have occured is now complete.
+	
+	# check if on a hole, and fall if so
+	if get_parent().get_cellv(get_parent().world_to_map(position)) in [4,8] :
+		fall()
+	
+	
 			
 func peuped(): # player's health has been compromised
 	is_healthy = false
