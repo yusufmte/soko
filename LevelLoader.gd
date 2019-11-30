@@ -1,5 +1,7 @@
 extends Node
 
+# size of loaded level in pixels
+var level_size : Vector2
 
 
 func load_level(lvl):
@@ -7,6 +9,15 @@ func load_level(lvl):
 	var level = Level.instance()
 	add_child(level)
 	
+	var used_cells : Array = level.get_used_cells()
+	var xs := Array()
+	var ys := Array()
+	for cell in used_cells:
+		xs.append(cell.x)
+		ys.append(cell.y)
+	level_size = level.get_cell_size() * Vector2(xs.max(),ys.max())
+
+
 	# connect all the signals
 	var main_node = get_parent()
 	level.connect("player_moved",main_node,"_on_player_moved")
